@@ -7,7 +7,7 @@
     "url": "git@github.com:justinribeiro/html5-dragdroptouch-shim.git"
   },
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "index.js",
   "module": "index.js",
   "files": [

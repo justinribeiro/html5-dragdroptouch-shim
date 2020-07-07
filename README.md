@@ -40,7 +40,7 @@ if ('ontouchstart' in document) {
 The class constructor can take an array of options if you want more control over the various triggers and delays within the shim:
 
 ```
-import default as DdtShim from '@justinribeiro/html5-dragdroptouch-shim';
+import { default as DdtShim } from '@justinribeiro/html5-dragdroptouch-shim';
 
 const opts = {
   threshold = 5,
