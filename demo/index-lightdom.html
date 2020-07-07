@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <script src="./components/all.js" type="module"></script>
+    <script type="module">
+      const status = document.querySelector("#status");
+      if ("ontouchstart" in document) {
+        import("../index.js").then((module) => {
+          const shim = new module.default();
+        });
+        status.textContent = "TOUCH DETECTED: DragDropTouch shim loaded!";
+      } else {
+        status.textContent = "NATIVE DRAGDROP DETECTED: no shim loaded.";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="status"></div>
+    <p>The lists below are are all lightdom.</p>
+    <h4>List One</h4>
+    <drop-list>
+      <drop-list-item>One - 1</drop-list-item>
+      <drop-list-item>Two - 2</drop-list-item>
+      <drop-list-item>Three - 3</drop-list-item>
+      <drop-list-item>Four - 4</drop-list-item>
+      <drop-list-item>Five - 5</drop-list-item>
+      <drop-list-item>Six - 6</drop-list-item>
+    </drop-list>
+
+    <h4>List Two</h4>
+    <drop-list></drop-list>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <script src="./components/all.js" type="module"></script>
+    <script type="module">
+      const status = document.querySelector('#status');
+      if ('ontouchstart' in document) {
+        import('../dist/index.js').then(module => {
+          console.log(module);
+          const shim = new module.default();
+        });
+        status.textContent = 'TOUCH DETECTED: DragDropTouch shim loaded!';
+      } else {
+        status.textContent = 'NATIVE DRAGDROP DETECTED: no shim loaded.';
+      }
+    </script>
+  </head>
+  <body>
+    <div id="status"></div>
+    <p>The lists below are at least two ShadowRoots deep.</p>
+    <main-view></main-view>
+  </body>
+</html>

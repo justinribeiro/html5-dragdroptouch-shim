@@ -1,0 +1,91 @@
+{
+  "name": "@justinribeiro/html5-dragdroptouch-shim",
+  "description": "An opinionated shim that polyfills HTML5 drag and drop support on mobile devices with Event.ComposedPath() support",
+  "author": "Justin Ribeiro <justin@justinribeiro.com>",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:justinribeiro/html5-dragdroptouch-shim.git"
+  },
+  "license": "MIT",
+  "version": "0.1.0",
+  "main": "index.js",
+  "module": "index.js",
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "index.*"
+  ],
+  "scripts": {
+    "dev": "yarn es-dev-server --app-index ./demo/index.html --node-resolve --open",
+    "dev:compatibility": "yarn es-dev-server --app-index demo/index.html --compatibility all --node-resolve --open --watch",
+    "lint:eslint": "yarn eslint --ext .js src/ ",
+    "format:eslint": "yarn eslint --ext .js src/ --fix",
+    "lint:prettier": "yarn prettier \"src/**/*.js\" --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
+    "format:prettier": "yarn prettier \"src/**/*.js\" --write",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "format": "yarn format:eslint && yarn format:prettier",
+    "build:dist": "yarn rollup -c",
+    "prepublishOnly": "yarn build:dist"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@open-wc/eslint-config": "^2.0.5",
+    "@open-wc/prettier-config": "^1.1.0",
+    "@types/eslint": "^4.16.6",
+    "es-dev-server": "^1.26.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-jest": "^23.8.2",
+    "husky": "^4.2.5",
+    "jest": "^25.5.0",
+    "jsdoc": "^3.6.4",
+    "lint-staged": "^10.2.0",
+    "prettier": "^2.0.5",
+    "rollup": "^2.17.1",
+    "rollup-plugin-filesize": "^9.0.1",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^6.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ],
+    "rules": {
+      "no-console": "error",
+      "no-plusplus": [
+        "error",
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ]
+    }
+  },
+  "prettier": "@open-wc/prettier-config",
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn format:eslint",
+      "yarn format:prettier"
+    ]
+  },
+  "type": "module",
+  "keywords": [
+    "dragdrop",
+    "shadowdom",
+    "web components",
+    "html5",
+    "touch"
+  ]
+}

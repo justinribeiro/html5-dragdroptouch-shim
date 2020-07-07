@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test</title>
+    <style>
+      div[draggable] {
+        padding: 0.5rem;
+        background-color: #f1f1f1;
+        margin: 0.25rem;
+      }
+      div[dragging] {
+        background-color: hotpink;
+        color: #fff;
+      }
+      div[dropzone] {
+        border: 2px dotted grey;
+        min-height: 100px;
+      }
+      div[dropzone]:has([active]) {
+        border: 2px dotted red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status"></div>
+    <p>
+      The lists below are are not web components, they're just plain old DOM.
+      Yeah, you can use this for that as well.
+    </p>
+    <h4>List One</h4>
+    <div dropzone="move">
+      <div draggable="true">One - 1</div>
+      <div draggable="true">Two - 2</div>
+      <div draggable="true">Three - 3</div>
+      <div draggable="true">Four - 4</div>
+      <div draggable="true">Five - 5</div>
+      <div draggable="true">Six - 6</div>
+    </div>
+    <h4>List Two</h4>
+    <div dropzone="move"></div>
+    <script type="module">
+      const status = document.querySelector("#status");
+      if ("ontouchstart" in document) {
+        import("../index.js").then((module) => {
+          const shim = new module.default();
+        });
+        status.textContent = "TOUCH DETECTED: DragDropTouch shim loaded!";
+      } else {
+        status.textContent = "NATIVE DRAGDROP DETECTED: no shim loaded.";
+      }
+
+      function __dragStart(event) {
+        event.dataTransfer.setData("text/html", "test");
+        this.setAttribute("dragging", "");
+      }
+
+      function __dragEnd() {
+        this.removeAttribute("over");
+        this.removeAttribute("dragging");
+      }
+
+      function __dragOver() {
+        if (this.hasAttribute("dragging")) {
+          this.removeAttribute("over");
+        } else {
+          this.setAttribute("over", "");
+        }
+      }
+
+      function __dragLeave() {
+        this.removeAttribute("over");
+      }
+
+      function __dzDrop(event) {
+        event.preventDefault();
+        this.appendChild(this.__draggingElement);
+        this.removeAttribute("active");
+        this.__draggingElement = null;
+      }
+
+      function __dzDragLeave() {
+        this.removeAttribute("active");
+      }
+
+      function __dzDragover(event) {
+        event.preventDefault();
+        this.setAttribute("active", "");
+        let found;
+
+        if (!this.__draggingElement) {
+          // find what we're looking for in the composed path that isn't a slot
+          found = event.composedPath().find((i) => {
+            if (i.nodeType === 1 && i.nodeName !== "SLOT") {
+              return i;
+            }
+          });
+
+          if (found) {
+            // find where we are deep in the change
+            const theLowestShadowRoot = found.getRootNode();
+            this.__draggingElement = theLowestShadowRoot.querySelector(
+              "[dragging]"
+            );
+          } else {
+            this.__draggingElement = document.querySelector("[dragging]");
+          }
+        }
+      }
+
+      [...document.querySelectorAll("[draggable]")].forEach((element) => {
+        element.addEventListener("dragstart", __dragStart.bind(element));
+        element.addEventListener("dragend", __dragEnd.bind(element));
+        element.addEventListener("drop", __dragEnd.bind(element));
+        element.addEventListener("dragover", __dragOver.bind(element));
+        element.addEventListener("dragleave", __dragLeave.bind(element));
+      });
+
+      [...document.querySelectorAll("[dropzone]")].forEach((element) => {
+        element.addEventListener("drop", __dzDrop.bind(element));
+        element.addEventListener("dragover", __dzDragover.bind(element));
+        element.addEventListener("dragleave", __dzDragLeave.bind(element));
+      });
+    </script>
+  </body>
+</html>
