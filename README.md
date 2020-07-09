@@ -4,6 +4,10 @@
 
 > An opinionated shim that polyfills HTML5 drag and drop support on mobile devices with Event.ComposedPath() support
 
+## TLDR;
+
+Where I wander through the demos in this repo and talk about a little about the inner workings: https://www.youtube.com/watch?v=MUF6R-tk_vY
+
 ## Key Differences From Other Polyfills
 
 While this is in large part an ES Modules refactor of Bernado's [dragdroptouch](https://github.com/Bernardo-Castilho/dragdroptouch) polyfill (which deserves the bulk of the love by the way), this version differs in two keys areas:

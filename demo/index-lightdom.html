@@ -6,14 +6,14 @@
     <title>Test</title>
     <script src="./components/all.js" type="module"></script>
     <script type="module">
-      const status = document.querySelector("#status");
-      if ("ontouchstart" in document) {
-        import("../index.js").then((module) => {
+      const status = document.querySelector('#status');
+      if ('ontouchstart' in document) {
+        import('../index.js').then(module => {
           const shim = new module.default();
         });
-        status.textContent = "TOUCH DETECTED: DragDropTouch shim loaded!";
+        status.textContent = 'TOUCH DETECTED: DragDropTouch shim loaded!';
       } else {
-        status.textContent = "NATIVE DRAGDROP DETECTED: no shim loaded.";
+        status.textContent = 'NATIVE DRAGDROP DETECTED: no shim loaded.';
       }
     </script>
   </head>
